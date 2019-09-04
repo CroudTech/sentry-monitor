@@ -126,7 +126,7 @@ const processSentryDataForProject = ({data, debug, project, opts}) => {
     };
   } else {
     return Promise.all([
-      sendDataToAnodot(anodotData, opts),
+      // sendDataToAnodot(anodotData, opts),
       sendDataToNewRelic(newRelicData, opts)
     ]);
   }
