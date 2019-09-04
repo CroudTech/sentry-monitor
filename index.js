@@ -1,5 +1,6 @@
 const app = require('express')();
 const run = require('./src/monitor');
+const util = require('util')
 
 module.exports = function (config) {
 
@@ -30,6 +31,17 @@ module.exports = function (config) {
           throw ex;
         });
     });
+  const execute = function(options) {
+    run({debug: options.debug, config})
+        .then(data => console.log(options.debug ? util.inspect(data, {showHidden: false, depth: null}) : {}))
+        .catch(ex => {
+          throw ex;
+        });
+  }
 
-  return app;
+  return {
+    express: app,
+    execute: execute
+  };
 };
+
