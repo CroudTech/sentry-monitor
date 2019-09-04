@@ -34,7 +34,7 @@ const getPagedData = ({url, startTime, acc = [], opts, datetimeField = 'dateCrea
       let {data, nextUrl} = result;
       let stop;
       //TODO: is the assumption that data is order by the datetimeField desc correct?
-      if (new Date(data[data.length - 1][datetimeField]) < startTime) {
+      if (data.length != 0 && new Date(data[data.length - 1][datetimeField]) < startTime) {
         data = _.filter(result.data, item => new Date(item[datetimeField]) > startTime);
         stop = true;
       }
@@ -113,7 +113,7 @@ const errorsByGroup = ({events, countsByGroup, opts, project, filter}) => Object
 
 const processSentryDataForProject = ({data, debug, project, opts}) => {
   const newRelicData = formatDataForNewRelic(data, project);
-  const anodotData = formatDataForAnodot(data, project);
+  //const anodotData = formatDataForAnodot(data, project);
   if (debug) {
     // console.log('Debug Mode: not sending any data anywhere...');
     // console.log('NR Data: ');
@@ -121,8 +121,7 @@ const processSentryDataForProject = ({data, debug, project, opts}) => {
     // console.log('Anodot Data: ');
     // console.log(anodotData);
     return {
-      newRelicData,
-      anodotData
+      newRelicData
     };
   } else {
     return Promise.all([
